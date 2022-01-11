@@ -1,25 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_learn_riverpod/fake_weather_client.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class CounterNotifier extends ChangeNotifier {
-  int _value = 0;
-  int get value => _value;
-  void incrementValue() {
-    _value++;
-    notifyListeners();
-  }
-}
+final fakeWeaterClientProvider = Provider((ref) => FakeWeaterClient());
 
-final counterProvider = ChangeNotifierProvider((ref) => CounterNotifier());
+final responseProvider = FutureProvider<int>((ref) async {
+  final weaterClient = ref.read(fakeWeaterClientProvider);
+  return weaterClient.get("Malang");
+});
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -37,10 +33,6 @@ class MyHomePage extends StatelessWidget {
 
   final String title;
 
-  void _incrementCounter(BuildContext context) {
-    context.read(counterProvider).incrementValue();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,21 +43,17 @@ class MyHomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
             Consumer(builder: (context, watch, child) {
-              final counterNotifier = watch(counterProvider);
-              return Text('${counterNotifier.value}');
+              final responseValue = watch(responseProvider);
+              return responseValue.map(
+                  data: (weater) => Text("Current weather is ${weater.value}"),
+                  loading: (_) => const CircularProgressIndicator(),
+                  error: (message) =>
+                      Text("Error get water: ${message.error}"));
             }),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _incrementCounter(context),
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
