@@ -32,6 +32,10 @@ class ErrorRetry extends StatelessWidget {
           const SizedBox(height: 20),
           GestureDetector(
             onTap: onPressed,
+            child: ElevatedButton(
+              onPressed: onPressed,
+              child: const Text("Retry"),
+            ),
           )
         ],
       ),

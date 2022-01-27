@@ -6,14 +6,14 @@ class BodyBuilder extends StatelessWidget {
   final StatusState requestStatus;
   final Widget child;
   final Widget loadingWidget;
-  final Function reload;
+  final Function onReload;
 
-  BodyBuilder(
+  const BodyBuilder(
       {Key? key,
       required this.requestStatus,
       required this.child,
       required this.loadingWidget,
-      required this.reload})
+      required this.onReload})
       : super(key: key);
 
   @override
@@ -24,7 +24,11 @@ class BodyBuilder extends StatelessWidget {
       case StatusState.loading:
         return loadingWidget;
       case StatusState.failed:
-        return ErrorRetry(onPressed: reload(), text: "Retry");
+        return ErrorRetry(
+            onPressed: () {
+              onReload();
+            },
+            text: "Retry");
       case StatusState.loaded:
         return child;
     }

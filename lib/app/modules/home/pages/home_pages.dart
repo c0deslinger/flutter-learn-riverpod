@@ -17,8 +17,8 @@ class HomePage extends HookWidget {
           child: BodyBuilder(
             requestStatus: homeNotifier.requestStatus,
             loadingWidget: const CircularProgressIndicator(),
+            onReload: () => homeNotifier.getData(),
             child: _createListView(homeNotifier),
-            reload: () => homeNotifier.getData(),
           ),
         ));
   }
