@@ -1,16 +1,15 @@
-# flutter_learn_riverpod
+# Flutter Hook + Riverpod + GraphQL
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Step:
+- [controller] create graphql singleton & query class
+  [controller] create status state
+- [error] create error & exceptions class
+- [model] create model class based on result graphql playground
+- [datasources] create datasource class
+- [repository] create repository class => linked to datasource
+- [notifier] create notifier class => linked to repository, status state & model class
+- [root] create provider class => linked to data source, repository & notifier
+- [widget] create error_retry class
+- [widget] create body builder => linked to status state & error retry
+- [pages] create pages (screen) class => extends HookWidget, linked to provider class, notifier & body builder
+- [main] wrap MyApp with ProviderScope => linked to home page
